@@ -1,0 +1,25 @@
+﻿
+<h1>Lifecycle component</h1>
+
+
+@foreach (var item in Eventype)
+{
+    @item
+    <hr />
+}
+
+@code {
+    [Parameter]
+    public int CountValue { get; set; }
+    List<string> Eventype = new List<string>();
+
+    protected override void OnInitialized()
+    {
+        Eventype.Add("Child - OnInitialized is called");
+    }
+
+    protected override void OnParametersSet()
+    {
+        Eventype.Add("Child - OnParametersSet is called");
+    }
+}

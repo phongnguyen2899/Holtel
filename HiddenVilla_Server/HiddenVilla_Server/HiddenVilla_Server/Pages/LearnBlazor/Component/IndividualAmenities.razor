@@ -1,0 +1,21 @@
+﻿@using Model
+<div class="bg-light border p-2 mt-2 col-5 offset-1" @onmouseover="(args)=>AmenitiesSelectionChange(args, Amenities.Name)">
+    <h4>Amenity Id - @Amenities.Id</h4>
+
+    @Amenities.Name<br />
+    @Amenities.Description<br />
+ 
+</div>
+
+@code {
+    [Parameter]
+    public BlazorAmenities Amenities { get; set; }
+
+    [Parameter]
+    public EventCallback<string> OnAmenitiesSelection { get; set; }
+
+    protected async Task AmenitiesSelectionChange(MouseEventArgs e, string amenityName)
+    {
+        OnAmenitiesSelection.InvokeAsync((string)amenityName);
+    }
+}

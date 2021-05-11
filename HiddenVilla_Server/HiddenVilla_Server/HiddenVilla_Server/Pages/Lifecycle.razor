@@ -1,0 +1,90 @@
+﻿@page "/lifecycle"
+@using System.Threading
+
+<h1>Lifecycle</h1>
+<div class="border">
+    <LifecycleComponent CountValue="@currentCount"></LifecycleComponent>
+</div>
+
+<p>Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<br />
+@Count <button class="btn btn-primary" @onclick="StartCountDown">Start count down</button>
+
+
+@foreach (var item in Eventype)
+{
+    @item
+    <hr />
+}
+
+@code {
+    private int currentCount = 0;
+
+    List<string> Eventype = new List<string>();
+
+    private void IncrementCount()
+    {
+        /// currentCount++;
+    }
+    private int Count { get; set; } = 5;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Eventype.Add("OnInitialized async is called");
+    }
+
+    protected override void OnInitialized()
+    {
+        Eventype.Add("OnInitialized is called");
+    }
+
+    protected override void OnParametersSet()
+    {
+        Eventype.Add("OnParametersSet is called");
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Eventype.Add("OnParametersSetAsync is called");
+    }
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            currentCount = 111;
+        }
+        else
+        {
+            currentCount = 333;
+        }
+        Eventype.Add("OnParametersSetAsync is called");
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        Eventype.Add("OnParametersSetAsync is called");
+    }
+
+    protected override bool ShouldRender()
+    {
+        Eventype.Add("ShouldRender is called");
+        return true;
+    }
+
+    void StartCountDown()
+    {
+        var timer = new Timer(TimeCallBack, null, 1000, 1000);
+    }
+
+    void TimeCallBack(object state)
+    {
+        if (Count > 0)
+        {
+            Count--;
+            InvokeAsync(StateHasChanged);
+        }
+
+    }
+
+}
